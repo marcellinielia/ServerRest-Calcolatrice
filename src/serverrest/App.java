@@ -8,7 +8,7 @@ package serverrest;
 /**
  * Entry point dell'applicazione Calcolatrice REST
  * 
- * @author delfo
+ * @author marce
  */
 public class App {
 

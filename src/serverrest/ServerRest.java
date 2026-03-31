@@ -19,7 +19,7 @@ import java.util.Map;
 /**
  * Server REST per la calcolatrice
  * 
- * @author delfo
+ * @author marce
  */
 public class ServerRest {
 
