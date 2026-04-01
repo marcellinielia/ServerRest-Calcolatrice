@@ -77,13 +77,17 @@ public class ServerRest {
         Gson gson = new GsonBuilder().setPrettyPrinting().create();
         
         Map info = new HashMap<>();
-        info.put("messaggio", "Benvenuto alla Calcolatrice REST API");
-        info.put("versione", "2.0.0");
+        info.put("messaggio", "benvenuto nell'arnia digitale");
+        info.put("versione", "1.0.0");
         info.put("tecnologia", "Java + GSON");
         
         Map endpoints = new HashMap<>();
         endpoints.put("POST", "/api/calcola/post");
         endpoints.put("GET", "/api/calcola/get?operando1=X&operando2=Y&operatore=OP");
+        endpoints.put("GET", "/api/umidita/get?timestamp1=X&timestamp2=Y");
+        endpoints.put("GET", "/api/temperatura/get?timestamp1=X&timestamp2=Y");
+        endpoints.put("GET", "/api/peso/get?timestamp1=X&timestamp2=Y");
+        endpoints.put("GET", "/api/non-lo-so/get?timestamp1=X&timestamp2=Y");
         info.put("endpoints", endpoints);
         
         Map operatori = new HashMap<>();
