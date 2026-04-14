@@ -34,8 +34,14 @@ public class ServerRest {
             HttpServer server = HttpServer.create(new InetSocketAddress(porta), 0);
             
             // Registra gli handler per gli endpoint
-            server.createContext("/api/calcola/post", new PostHandler());
-            server.createContext("/api/calcola/get", new GetHandler());
+            //server.createContext("/api/calcola/post", new PostHandler());
+            //server.createContext("/api/calcola/get", new GetHandler());
+            
+            server.createContext("/api/user/get", new GetArnieHandler());
+            server.createContext("/api/user/post", new PostArnieHandler());
+            
+            server.createContext("/api/arnie/get", new GetArnieHandler());
+            server.createContext("/api/arnie/post", new PostArnieHandler());
             
             // Endpoint di benvenuto
             server.createContext("/", ServerRest::gestisciBenvenuto);
@@ -84,10 +90,7 @@ public class ServerRest {
         Map endpoints = new HashMap<>();
         endpoints.put("POST", "/api/calcola/post");
         endpoints.put("GET", "/api/calcola/get?operando1=X&operando2=Y&operatore=OP");
-        endpoints.put("GET", "/api/umidita/get?timestamp1=X&timestamp2=Y");
-        endpoints.put("GET", "/api/temperatura/get?timestamp1=X&timestamp2=Y");
-        endpoints.put("GET", "/api/peso/get?timestamp1=X&timestamp2=Y");
-        endpoints.put("GET", "/api/non-lo-so/get?timestamp1=X&timestamp2=Y");
+        
         info.put("endpoints", endpoints);
         
         Map operatori = new HashMap<>();

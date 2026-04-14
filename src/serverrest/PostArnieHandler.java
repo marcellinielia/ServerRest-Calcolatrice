@@ -26,7 +26,7 @@ import java.util.Map;
  */
 
 
-public class PostHandler implements HttpHandler {
+public class PostArnieHandler implements HttpHandler {
     
     // Istanza Gson configurata per pretty printing
     private final Gson gson = new GsonBuilder()
@@ -36,57 +36,51 @@ public class PostHandler implements HttpHandler {
     @Override
     public void handle(HttpExchange exchange) throws IOException {
         
-        // Verifica che sia una richiesta POST
+        // 1. Verifica che sia una richiesta POST
         if (!exchange.getRequestMethod().equalsIgnoreCase("POST")) {
             inviaErrore(exchange, 405, "Metodo non consentito. Usa POST");
             return;
         }
         
         try {
-            // Legge il body della richiesta
+            // 2. Legge il body della richiesta
             BufferedReader reader = new BufferedReader(
                 new InputStreamReader(exchange.getRequestBody(), StandardCharsets.UTF_8)
             );
             
-            // GSON converte automaticamente il JSON in oggetto Java
-            OperazioneRequest request = gson.fromJson(reader, OperazioneRequest.class);
+            // Convertiamo il JSON in una Mappa generica (più flessibile per ora)
+            Map<String, Object> nuovaArnia = gson.fromJson(reader, Map.class);
             reader.close();
             
-            // Validazione
-            if (request == null) {
-                inviaErrore(exchange, 400, "Body della richiesta vuoto o non valido");
+            // 3. Validazione minima
+            if (nuovaArnia == null || nuovaArnia.isEmpty()) {
+                inviaErrore(exchange, 400, "Dati arnia mancanti o formato JSON non valido");
+                return;
+            }
+
+            if (!nuovaArnia.containsKey("codice")) {
+                inviaErrore(exchange, 400, "Il campo 'codice' è obbligatorio");
                 return;
             }
             
-            if (request.getOperatore() == null || request.getOperatore().trim().isEmpty()) {
-                inviaErrore(exchange, 400, "Operatore mancante o vuoto");
-                return;
-            }
+            // 4. LOGICA DI SALVATAGGIO
+            // Qui dovresti aggiungere l'arnia alla tua lista statica.
+            // Esempio: GetHandler.arnieDB.add(nuovaArnia);
+            // (Assicurati che arnieDB in GetHandler sia public e static)
             
-            // Esegue il calcolo
-            double risultato = CalcolatriceService.calcola(
-                request.getOperando1(),
-                request.getOperando2(),
-                request.getOperatore()
-            );
+            System.out.println("Ricevuta nuova arnia: " + nuovaArnia.get("codice"));
+
+            // 5. Risposta di successo
+            Map<String, Object> response = new HashMap<>();
+            response.put("stato", "successo");
+            response.put("messaggio", "Arnia registrata correttamente");
+            response.put("dati_ricevuti", nuovaArnia);
             
-            // Crea l'oggetto risposta
-            OperazioneResponse response = new OperazioneResponse(
-                request.getOperando1(),
-                request.getOperando2(),
-                request.getOperatore(),
-                risultato
-            );
-            
-            // GSON converte automaticamente l'oggetto Java in JSON
             String jsonRisposta = gson.toJson(response);
-            
-            inviaRisposta(exchange, 200, jsonRisposta);
+            inviaRisposta(exchange, 201, jsonRisposta); // 201 = Created
             
         } catch (JsonSyntaxException e) {
-            inviaErrore(exchange, 400, "JSON non valido: " + e.getMessage());
-        } catch (IllegalArgumentException e) {
-            inviaErrore(exchange, 400, e.getMessage());
+            inviaErrore(exchange, 400, "Errore di sintassi JSON: " + e.getMessage());
         } catch (Exception e) {
             inviaErrore(exchange, 500, "Errore interno del server: " + e.getMessage());
         }
@@ -95,31 +89,22 @@ public class PostHandler implements HttpHandler {
     /**
      * Invia una risposta di successo
      */
-    private void inviaRisposta(HttpExchange exchange, int codice, String jsonRisposta) 
-            throws IOException {
-        
+    private void inviaRisposta(HttpExchange exchange, int codice, String jsonRisposta) throws IOException {
         exchange.getResponseHeaders().set("Content-Type", "application/json; charset=UTF-8");
         exchange.getResponseHeaders().set("Access-Control-Allow-Origin", "*");
         
         byte[] bytes = jsonRisposta.getBytes(StandardCharsets.UTF_8);
         exchange.sendResponseHeaders(codice, bytes.length);
         
-        OutputStream os = exchange.getResponseBody();
-        os.write(bytes);
-        os.close();
+        try (OutputStream os = exchange.getResponseBody()) {
+            os.write(bytes);
+        }
     }
     
-    /**
-     * Invia una risposta di errore in formato JSON
-     */
-    private void inviaErrore(HttpExchange exchange, int codice, String messaggio) 
-            throws IOException {
-        
-        Map errore = new HashMap<>();
+    private void inviaErrore(HttpExchange exchange, int codice, String messaggio) throws IOException {
+        Map<String, Object> errore = new HashMap<>();
         errore.put("errore", messaggio);
         errore.put("status", codice);
-        
-        String jsonErrore = gson.toJson(errore);
-        inviaRisposta(exchange, codice, jsonErrore);
+        inviaRisposta(exchange, codice, gson.toJson(errore));
     }
 }
