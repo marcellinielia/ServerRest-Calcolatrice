@@ -3,8 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/C:/Users/marcellini.elia/Documents/GitHub/test/ServerRest-Calcolatrice/src/serverrest/GetHandler.java</file>
             <file>file:/C:/Users/marcellini.elia/Documents/GitHub/test/ServerRest-Calcolatrice/src/serverrest/test.html</file>
+            <file>file:/C:/Users/marcellini.elia/Documents/GitHub/test/ServerRest-Calcolatrice/src/serverrest/App.java</file>
+            <file>file:/C:/Users/marcellini.elia/Documents/GitHub/test/ServerRest-Calcolatrice/src/serverrest/CalcolatriceService.java</file>
+            <file>file:/C:/Users/marcellini.elia/Documents/GitHub/test/ServerRest-Calcolatrice/src/serverrest/ServerRest.java</file>
+            <file>file:/C:/Users/marcellini.elia/Documents/GitHub/test/ServerRest-Calcolatrice/src/serverrest/OperazioneRequest.java</file>
+            <file>file:/C:/Users/marcellini.elia/Documents/GitHub/test/ServerRest-Calcolatrice/src/serverrest/GetArnieHandler.java</file>
+            <file>file:/C:/Users/marcellini.elia/Documents/GitHub/test/ServerRest-Calcolatrice/src/serverrest/PostArnieHandler.java</file>
+            <file>file:/C:/Users/marcellini.elia/Documents/GitHub/test/ServerRest-Calcolatrice/src/serverrest/OperazioneResponse.java</file>
         </group>
     </open-files>
 </project-private>
