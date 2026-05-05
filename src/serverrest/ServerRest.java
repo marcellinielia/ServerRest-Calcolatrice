@@ -33,15 +33,39 @@ public class ServerRest {
             // Crea il server sulla porta specificata
             HttpServer server = HttpServer.create(new InetSocketAddress(porta), 0);
             
-            // Registra gli handler per gli endpoint
-            //server.createContext("/api/calcola/post", new PostHandler());
-            //server.createContext("/api/calcola/get", new GetHandler());
-            
-            server.createContext("/api/user/get", new GetArnieHandler());
-            server.createContext("/api/user/post", new PostArnieHandler());
-            
+            // 1. Arnie
             server.createContext("/api/arnie/get", new GetArnieHandler());
             server.createContext("/api/arnie/post", new PostArnieHandler());
+
+            // 2. Users / Utenti
+            server.createContext("/api/users/get", new GetUsersHandler());
+            server.createContext("/api/users/post", new PostUsersHandler());
+            server.createContext("/api/utenti/get", new GetUtentiHandler());
+            server.createContext("/api/utenti/post", new PostUtentiHandler());
+
+            // 3. Notifiche
+            server.createContext("/api/notifiche/get", new GetNotificheHandler());
+            server.createContext("/api/notifiche/post", new PostNotificheHandler());
+
+            // 4. Tipi Rilevazione
+            server.createContext("/api/tipirilevazione/get", new GetTipiRilevazioneHandler());
+            server.createContext("/api/tipirilevazione/post", new PostTipiRilevazioneHandler());
+
+            // 5. Rilevazioni
+            server.createContext("/api/rilevazioni/get", new GetRilevazioniHandler());
+            server.createContext("/api/rilevazioni/post", new PostRilevazioniHandler());
+
+            // 6. Sensori Arnia
+            server.createContext("/api/sensoriarnia/get", new GetSensoriArniaHandler());
+            server.createContext("/api/sensoriarnia/post", new PostSensoriArniaHandler());
+
+            // 7. Sensori
+            server.createContext("/api/sensori/get", new GetSensoriHandler());
+            server.createContext("/api/sensori/post", new PostSensoriHandler());
+
+            // 8. Apiari
+            server.createContext("/api/apiari/get", new GetApiariHandler());
+            server.createContext("/api/apiari/post", new PostApiariHandler());
             
             // Endpoint di benvenuto
             server.createContext("/", ServerRest::gestisciBenvenuto);

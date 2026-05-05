@@ -1,3 +1,7 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package serverrest;
 
 import com.google.gson.Gson;
@@ -10,9 +14,15 @@ import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-public class GetArnieHandler implements HttpHandler {
+/**
+ *
+ * @author marcellini.elia
+ */
+public class GetNotificheHandler implements HttpHandler {
     private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+    
+    public GetNotificheHandler() {
+    }
 
     @Override
     public void handle(HttpExchange exchange) throws IOException {
@@ -22,13 +32,13 @@ public class GetArnieHandler implements HttpHandler {
         }
 
         try {
-            gestisciGetArnie(exchange);
+            gestisciGetNotifiche(exchange);
         } catch (Exception e) {
             inviaErrore(exchange, 500, "Errore interno del server: " + e.getMessage());
         }
     }
-
-    private void gestisciGetArnie(HttpExchange exchange) throws IOException {
+    
+    private void gestisciGetNotifiche(HttpExchange exchange) throws IOException {
         // QUI ANDRÀ IL RICHIAMO ALLA TUA CLASSE DATABASE
         // Esempio: List<Map<String, Object>> dati = DatabaseManager.getAll("arnie");
         List<Map<String, Object>> dati = null; // Sostituire con la chiamata reale
